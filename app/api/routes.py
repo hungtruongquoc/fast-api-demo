@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.routes import index, items
+from app.api import index, items
 
 router = APIRouter()
 router.include_router(index.router, prefix="/", tags=["index"])
