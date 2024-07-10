@@ -10,8 +10,10 @@ from app.core.config import settings
 
 # Initialize the rate limiter
 limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
+
 app = FastAPI(title=settings.PROJECT_NAME)
 
+app.state.limiter = limiter
 
 # Register the rate limit exceeded handler
 @app.exception_handler(RateLimitExceeded)
