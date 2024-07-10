@@ -7,6 +7,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.api.routes import router as api_router
 from app.core.config import settings
+from app.middlewares.api_key_authentication import ApiKeyAuthenticationMiddleware
 
 # Initialize the rate limiter
 limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
@@ -26,5 +27,6 @@ async def rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
 
 # Add SlowAPI middleware to apply rate limiting globally
 app.add_middleware(SlowAPIMiddleware)
+app.add_middleware(ApiKeyAuthenticationMiddleware)
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
