@@ -23,16 +23,15 @@ class ApiKeyAuthenticationMiddleware(BaseHTTPMiddleware):
 
         expiration_timestamp = reader.get_expiration(customer_name)
 
+        # If expiration_timestamp does not exist, return an error
+        if expiration_timestamp is None:
+            return Response(content="API key not found or expired.", status_code=403)
+
         # Check if expiration_timestamp exists and has not exceeded
-        if expiration_timestamp:
-            if datetime.now(timezone.utc) < expiration_timestamp:
-                # Proceed to the next middleware or endpoint
-                response = await call_next(request)
-                return response
-            else:
-                # Reject the request
-                return Response(content="API key expired.", status_code=403)
-        else:
-            # Proceed to the next middleware or endpoint if no expiration timestamp
+        if datetime.now(timezone.utc) < expiration_timestamp:
+            # Proceed to the next middleware or endpoint
             response = await call_next(request)
             return response
+        else:
+            # Reject the request
+            return Response(content="API key expired.", status_code=403)
