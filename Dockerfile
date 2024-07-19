@@ -16,5 +16,10 @@ COPY . .
 # Step 6: Make port 8080 available to the world outside this container
 EXPOSE 8080
 
+COPY start_uvicorn.sh /app/start_uvicorn.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /app/start_uvicorn.sh
+
 # Step 7: Run the application
-CMD ["uvicorn", "app.main:app", "--host", "::", "--port", "8080"]
+ENTRYPOINT ["/app/start_uvicorn.sh"]
