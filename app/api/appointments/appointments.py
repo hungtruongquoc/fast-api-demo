@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.api.appointments.stats.stats import stats_router
-from app.api.decorators.api_key_validator import api_key_required
+from app.api.dependencies.api_key_validator import api_key_validator
 from app.core.dependencies.contentful_service_injector import get_contentful_service
 from app.core.models.appointment_create import AppointmentCreate
 from app.core.services.contentful_service import ContentfulService
@@ -9,8 +9,7 @@ from app.core.services.contentful_service import ContentfulService
 router = APIRouter()
 
 
-@router.post("/")
-@api_key_required
+@router.post("/", dependencies=[Depends(api_key_validator)])
 async def create_appointments(appointment: AppointmentCreate,
                               service: ContentfulService = Depends(get_contentful_service)):
     try:
@@ -20,8 +19,7 @@ async def create_appointments(appointment: AppointmentCreate,
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/")
-@api_key_required
+@router.get("/", dependencies=[Depends(api_key_validator)])
 async def get_appointments(service: ContentfulService = Depends(get_contentful_service)):
     try:
         entries = service.get_appointments_with_package()
