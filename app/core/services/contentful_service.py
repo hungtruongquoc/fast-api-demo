@@ -69,3 +69,23 @@ class ContentfulService:
         grouped_appointments = {str(month): count for month, count in grouped.items()}
 
         return grouped_appointments
+
+    def get_count_stats_by_package_and_month(self):
+        data = self.get_appointments_with_package()
+
+        # Convert data to DataFrame
+        df = pd.DataFrame(data)
+
+        # Normalize nested fields
+        df = df.explode('appointment').reset_index(drop=True)
+        df = pd.concat([df.drop(['appointment'], axis=1), df['appointment'].apply(pd.Series)], axis=1)
+        df['timestampUtc'] = pd.to_datetime(df['timestampUtc'])
+
+        # Extract month and year for aggregation
+        df['month_year'] = df['timestampUtc'].dt.to_period('M')
+
+        # Group by month and count unique package IDs
+        grouped = df.groupby('month_year')['packageName'].nunique().to_dict()
+
+        # Convert PeriodIndex to string keys for the dictionary
+        return {str(month): count for month, count in grouped.items()}
