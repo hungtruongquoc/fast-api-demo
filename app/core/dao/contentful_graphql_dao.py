@@ -34,7 +34,7 @@ class ContentfulGraphQLDAO:
     def get_package_appointments(self):
         query = '''
         {
-          packageAppointmentCollection {
+          appointmentPackage {
             items {
               sys {
                 id
@@ -60,4 +60,4 @@ class ContentfulGraphQLDAO:
         }
         '''
         data = self.query(query)
-        return data['data']['packageAppointmentCollection']['items']
+        return data['data']['appointmentPackage']['items']
