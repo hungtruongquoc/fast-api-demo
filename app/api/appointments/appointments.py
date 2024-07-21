@@ -1,7 +1,8 @@
 from typing import Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException
-
+from pydantic import ValidationError
+from fastapi.encoders import jsonable_encoder
 from app.api.appointments.stats.stats import stats_router
 from app.core.dependencies.contentful_service_injector import get_contentful_service
 from app.core.models.appointment import Appointment

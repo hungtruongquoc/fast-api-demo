@@ -3,6 +3,8 @@ from app.api import index, items, appointments, packages
 from app.api.appointments.appointments import router as appointments_router
 from app.api.packages.packages import router as package_router
 from app.api.app_api_router import AppAPIRouter  # Assuming the CustomAPIRouter is defined here
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 # Replace APIRouter with CustomAPIRouter
 router = AppAPIRouter()

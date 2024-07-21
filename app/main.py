@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.encoders import jsonable_encoder
 from starlette.responses import JSONResponse
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -16,12 +18,22 @@ app = FastAPI(title=settings.PROJECT_NAME)
 
 app.state.limiter = limiter
 
+
 # Register the rate limit exceeded handler
 @app.exception_handler(RateLimitExceeded)
 async def rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
     return JSONResponse(
         status_code=429,
         content={"detail": "Rate limit exceeded. Please try again later."},
+    )
+
+
+# Register the custom exception handler
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content=jsonable_encoder({"detail": exc.errors()})
     )
 
 
