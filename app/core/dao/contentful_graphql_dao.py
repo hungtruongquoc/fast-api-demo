@@ -23,13 +23,13 @@ class ContentfulGraphQLDAO:
     def get_appointment_count(self):
         query = '''
                 {
-                  appointmentCollection {
+                  appointmentsCollection {
                     total
                   }
                 }
                 '''
         data = self.query(query)
-        return data['data']['appointmentCollection']['total']
+        return data['data']['appointmentsCollection']['total']
 
     def get_package_appointments(self):
         query = '''
@@ -60,4 +60,4 @@ class ContentfulGraphQLDAO:
         }
         '''
         data = self.query(query)
-        return data['data']['appointmentPackage']['items']
+        return data['data']['appointmentPackageCollection']['items']
