@@ -85,13 +85,19 @@ class ContentfulService:
         # Group by month and package name and count occurrences
         grouped = df.groupby(['month_year', 'packageName.name']).size().unstack(fill_value=0).reset_index()
 
+        # Debug: print the intermediate grouped DataFrame
+        print("Grouped DataFrame:\n", grouped)
+
         # Convert grouped DataFrame to list of dictionaries
         package_stats_by_month = []
         for index, row in grouped.iterrows():
-            stats = {'month': row['month_year']}
+            stats = {'month': str(row['month_year'])}
             for package_name in grouped.columns[1:]:
-                stats[package_name] = row[package_name]
+                stats[package_name] = int(row[package_name])  # Ensure values are integers
             package_stats_by_month.append(stats)
+
+        # Debug: print the final stats list
+        print("Package Stats by Month:\n", package_stats_by_month)
 
         return package_stats_by_month
 
