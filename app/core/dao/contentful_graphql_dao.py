@@ -1,12 +1,12 @@
 import requests
 
-from app.core.config import Settings
+from app.core.config import settings
 
 
 class ContentfulGraphQLDAO:
     def __init__(self):
-        self.space_id = Settings.CONTENTFUL_SPACE_ID
-        self.access_token = Settings.CONTENTFUL_CDA_TOKEN
+        self.space_id = settings.CONTENTFUL_SPACE_ID
+        self.access_token = settings.CONTENTFUL_CDA_TOKEN
         self.endpoint = f'https://graphql.contentful.com/content/v1/spaces/{self.space_id}'
         self.headers = {
             'Content-Type': 'application/json',
