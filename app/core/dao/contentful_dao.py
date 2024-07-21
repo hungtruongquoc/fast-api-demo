@@ -10,7 +10,7 @@ class ContentfulDAO:
         self.cma_client = cma_client
 
     def create_appointment(self, appointment: Appointment):
-        space = self.cma_client.spaces().find(settings.SPACE_ID)
+        space = self.cma_client.spaces().find(settings.CONTENTFUL_SPACE_ID)
         environment = space.environments().find('master')
         entry = environment.entries().create(None, {
             'content_type_id': 'appointments',
