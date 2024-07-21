@@ -13,7 +13,7 @@ router = APIRouter()
 async def create_appointments(appointment: AppointmentCreate,
                               service: ContentfulService = Depends(get_contentful_service)):
     try:
-        entry = service.create_appointment(appointment)
+        entry = service.create_appointment(appointment, appointment.package_id)
         return {"entry": entry}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

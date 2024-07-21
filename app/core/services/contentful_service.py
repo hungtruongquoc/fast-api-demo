@@ -13,8 +13,8 @@ class ContentfulService:
         self.dao = dao
         self.graphql_dao = graphql_dao
 
-    def create_appointment(self, appointment) -> Appointment:
-        return self.dao.create_appointment(appointment)
+    def create_appointment(self, appointment, package_id: str) -> Appointment:
+        return self.dao.create_appointment(appointment, package_id)
 
     def get_appointments(self) -> List[Appointment]:
         return self.dao.get_appointments()
@@ -95,8 +95,5 @@ class ContentfulService:
             for package_name in grouped.columns[1:]:
                 stats[package_name] = int(row[package_name])  # Ensure values are integers
             package_stats_by_month.append(stats)
-
-        # Debug: print the final stats list
-        print("Package Stats by Month:\n", package_stats_by_month)
 
         return package_stats_by_month

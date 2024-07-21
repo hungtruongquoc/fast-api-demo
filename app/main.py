@@ -6,6 +6,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.errors import RateLimitExceeded
+import logging
 
 from app.api.routes import router as api_router
 from app.core.config import settings
@@ -13,6 +14,8 @@ from app.middlewares.api_key_authentication import ApiKeyAuthenticationMiddlewar
 
 # Initialize the rate limiter
 limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
+# Configure the logger
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
