@@ -1,36 +1,26 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.core.config import settings
-from app.core.dependencies.contentful_clients import get_contentful_clients
+from app.core.dependencies.contentful_service_injector import get_contentful_service
 from app.core.models.appointment import Appointment
+from app.core.services.contentful_service import ContentfulService
 
 router = APIRouter()
 
 
 @router.post("/")
-async def create_appointments(appointment: Appointment, clients: dict = Depends(get_contentful_clients)):
+async def create_appointments(appointment: Appointment,
+                              service: ContentfulService = Depends(get_contentful_service)):
     try:
-        cma_client = clients["cma_client"]
-        space = cma_client.spaces().find(settings.CONTENTFUL_SPACE_ID)
-        environment = space.environments().find('master')
-        entry = environment.entries().create(None, {
-            'content_type_id': 'appointments',
-            'fields': {
-                'firstName': {'en-US': appointment.first_name},
-                'lastName': {'en-US': appointment.last_name},
-            }
-        })
-        entry.publish()
-        return {"entry": entry.to_json()}
+        entry = service.create_appointment(appointment)
+        return {"entry": entry}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/")
-async def get_appointments(clients: dict = Depends(get_contentful_clients)):
-    cda_client = clients["cda_client"]
+async def get_appointments(service: ContentfulService = Depends(get_contentful_service)):
     try:
-        entries = cda_client.entries({'content_type': 'appointments'})
-        return {"appointments": [entry.fields() for entry in entries]}
+        entries = service.get_appointments()
+        return {"appointments": entries}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
