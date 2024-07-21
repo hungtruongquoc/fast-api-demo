@@ -2,6 +2,7 @@ from contentful import Client as ContentfulClient
 from contentful_management import Client as ContentfulManagementClient
 from app.core.config import settings
 from app.core.models.appointment import Appointment
+from uuid6 import uuid7
 
 
 class ContentfulDAO:
@@ -15,6 +16,7 @@ class ContentfulDAO:
         entry = environment.entries().create(None, {
             'content_type_id': 'appointments',
             'fields': {
+                'id': {'en-US': str(uuid7())},
                 'firstName': {'en-US': appointment.first_name},
                 'lastName': {'en-US': appointment.last_name},
                 'timestampUtc': {'en-US': appointment.timestamp.isoformat()},
