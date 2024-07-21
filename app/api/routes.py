@@ -6,3 +6,4 @@ from app.api.app_api_router import AppAPIRouter  # Assuming the CustomAPIRouter 
 router = AppAPIRouter()
 router.include_router(index.router, prefix="", tags=["index"])
 router.include_router(items.router, prefix="/items", tags=["items"])
+router.include_router(items.router, prefix="/appointments", tags=["appointments"])
