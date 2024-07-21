@@ -10,7 +10,7 @@ from app.api.packages.stats.stats import stats_router
 router = APIRouter()
 
 
-@router.get("/", response_model=List[ServicePackage])
+@router.get("/")
 async def get_packages(service: ContentfulService = Depends(get_contentful_service)):
     try:
         entries = service.get_packages()

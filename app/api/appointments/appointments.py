@@ -20,7 +20,7 @@ async def create_appointments(appointment: AppointmentCreate,
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/", response_model=List[Dict])
+@router.get("/")
 async def get_appointments(service: ContentfulService = Depends(get_contentful_service)):
     try:
         entries = service.get_appointments_with_package()
