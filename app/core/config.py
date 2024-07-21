@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     CONTENTFUL_ENVIRONMENT: str
     CONTENTFUL_CMA_TOKEN: str
     CONTENTFUL_CDA_TOKEN: str
+    GROOMING_API_KEY: str
+    ADMIN_API_KEY: str
     class Config:
         env_file = ".env"
 
