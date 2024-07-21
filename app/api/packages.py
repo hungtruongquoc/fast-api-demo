@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.get("/")
-async def get_appointments(service: ContentfulService = Depends(get_contentful_service)):
+async def get_packages(service: ContentfulService = Depends(get_contentful_service)):
     try:
         entries = service.get_packages()
         return {"packages": entries}
