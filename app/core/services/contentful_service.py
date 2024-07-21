@@ -10,3 +10,6 @@ class ContentfulService:
 
     def get_appointments(self):
         return self.dao.get_appointments()
+
+    def get_packages(self):
+        return self.dao.get_packages()

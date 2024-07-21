@@ -26,3 +26,7 @@ class ContentfulDAO:
     def get_appointments(self):
         entries = self.cda_client.entries({'content_type': 'appointments'})
         return [entry.fields() for entry in entries]
+
+    def get_packages(self):
+        entries = self.cda_client.entries({'content_type': 'package'})
+        return [entry.fields() for entry in entries]
