@@ -9,6 +9,6 @@ from app.core.services.contentful_service import ContentfulService
 stats_router = APIRouter()
 
 
-@stats_router.get("/count-by-month", response_model=Dict[str, int])
+@stats_router.get("/count-by-month", response_model=List[Dict[str, int]])
 async def get_package_count_by_months(service: ContentfulService = Depends(get_contentful_service)):
     return service.get_count_stats_by_package_and_month()
