@@ -80,7 +80,7 @@ class ContentfulService:
         df['appointment.timestampUtc'] = pd.to_datetime(df['appointment.timestampUtc'])
 
         # Extract month and year for aggregation
-        df['month_year'] = df['appointment.timestampUtc'].dt.to_period('M')
+        df['month_year'] = df['appointment.timestampUtc'].dt.to_period('M').astype(str)
 
         # Group by month and package name and count occurrences
         grouped = df.groupby(['month_year', 'packageName.name']).size().unstack(fill_value=0).reset_index()
@@ -88,7 +88,7 @@ class ContentfulService:
         # Convert grouped DataFrame to list of dictionaries
         package_stats_by_month = []
         for index, row in grouped.iterrows():
-            stats = {'month': str(row['month_year'])}
+            stats = {'month': row['month_year']}
             for package_name in grouped.columns[1:]:
                 stats[package_name] = row[package_name]
             package_stats_by_month.append(stats)
