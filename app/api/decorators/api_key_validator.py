@@ -1,19 +1,18 @@
 from functools import wraps
-from typing import Callable
-
-from fastapi import HTTPException, Request
+from typing import Callable, Any
+from fastapi import HTTPException, Request, Depends
 
 from app.core.config import settings
 
 valid_api_keys = [settings.GROOMING_API_KEY, settings.ADMIN_API_KEY]
 
 
-def api_key_required(func: Callable):
+def api_key_required(func: Callable[..., Any]):
     @wraps(func)
-    async def wrapper(request: Request, *args, **kwargs):
+    async def wrapper(request: Request = Depends(), *args, **kwargs):
         api_key = request.query_params.get("customer")
-        if valid_api_keys.index(api_key) == -1:
+        if api_key not in valid_api_keys:
             raise HTTPException(status_code=403, detail="Access forbidden: Invalid API key")
-        return await func(*args, **kwargs)
+        return await func(request, *args, **kwargs)
 
     return wrapper
