@@ -20,7 +20,7 @@ async def create_appointments(appointment: Appointment,
 @router.get("/")
 async def get_appointments(service: ContentfulService = Depends(get_contentful_service)):
     try:
-        entries = service.get_appointments()
+        entries = service.get_appoints_with_package()
         return {"appointments": entries}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
