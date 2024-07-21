@@ -10,7 +10,7 @@ from app.core.services.contentful_service import ContentfulService
 router = APIRouter()
 
 
-@router.post("/", response_model=Appointment)
+@router.post("/")
 async def create_appointments(appointment: AppointmentCreate,
                               service: ContentfulService = Depends(get_contentful_service)):
     try:
