@@ -34,12 +34,12 @@ class ContentfulGraphQLDAO:
     def get_package_appointments(self):
         query = '''
         {
-          appointmentPackage {
+          appointmentPackageCollection {
             items {
               sys {
                 id
               }
-              package {
+              packageName {
                 sys {
                   id
                 }
