@@ -29,13 +29,16 @@ class ContentfulDAO:
                 }
             })
 
+            # Create the package appointment entry
             package_appointment_entry = environment.entries().create(None, {
                 'content_type_id': 'appointmentPackage',
                 'fields': {
-                    'packageName': {'en-US': package_id},
-                    'appointment': {'en-US': appointment_id},
+                    'packageName': {'en-US': {'sys': {'type': 'Link', 'linkType': 'Entry', 'id': package_id}}},
+                    'appointment': {
+                        'en-US': {'sys': {'type': 'Link', 'linkType': 'Entry', 'id': entry.sys['id']}}},
                 }
             })
+
             entry.publish()
             package_appointment_entry.publish()
             return entry.to_json()
