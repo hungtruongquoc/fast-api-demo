@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     FIREBASE_CLIENT_X509_CERT_URL: str
     FIREBASE_UNIVERSE_DOMAIN: str
     API_KEY: str
+
+    CONTENTFUL_SPACE_ID: str
+    CONTENTFUL_ENVIRONMENT: str
+    CONTENTFUL_CMA_TOKEN: str
+    CONTENTFUL_CDA_TOKEN: str
     class Config:
         env_file = ".env"
 
