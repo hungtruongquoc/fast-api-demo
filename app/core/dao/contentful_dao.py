@@ -17,6 +17,7 @@ class ContentfulDAO:
             'fields': {
                 'firstName': {'en-US': appointment.first_name},
                 'lastName': {'en-US': appointment.last_name},
+                'timestampUtc': {'en-US': appointment.timestamp},
             }
         })
         entry.publish()
