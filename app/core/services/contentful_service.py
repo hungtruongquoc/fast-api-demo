@@ -51,3 +51,21 @@ class ContentfulService:
             ]
 
         return grouped_appointments
+
+    def get_appointment_count_stats_by_month(self) -> Dict[str, int]:
+        appointments = self.graphql_dao.get_appointments()
+
+        # Convert appointments to DataFrame
+        df = pd.DataFrame(appointments)
+        df['timestampUtc'] = pd.to_datetime(df['timestampUtc'])
+
+        # Extract month and year for aggregation
+        df['month_year'] = df['timestampUtc'].dt.to_period('M')
+
+        # Group appointments by month and count them
+        grouped = df.groupby('month_year').size().to_dict()
+
+        # Convert PeriodIndex to string keys for the dictionary
+        grouped_appointments = {str(month): count for month, count in grouped.items()}
+
+        return grouped_appointments
