@@ -1,18 +1,17 @@
 from typing import Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import ValidationError
-from fastapi.encoders import jsonable_encoder
 from app.api.appointments.stats.stats import stats_router
 from app.core.dependencies.contentful_service_injector import get_contentful_service
 from app.core.models.appointment import Appointment
+from app.core.models.appointment_create import AppointmentCreate
 from app.core.services.contentful_service import ContentfulService
 
 router = APIRouter()
 
 
 @router.post("/", response_model=Appointment)
-async def create_appointments(appointment: Appointment,
+async def create_appointments(appointment: AppointmentCreate,
                               service: ContentfulService = Depends(get_contentful_service)):
     try:
         entry = service.create_appointment(appointment)
