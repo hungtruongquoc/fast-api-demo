@@ -25,7 +25,7 @@ class ContentfulService:
     def get_appointments_with_package(self) -> List[Dict]:
         return self.graphql_dao.get_package_appointments()
 
-    def get_appointment_stats_by_month(self) -> Dict[str, List[Appointment]]:
+    def get_appointment_stats_by_month(self) -> Dict[str, List[Dict]]:
         appointments = self.graphql_dao.get_appointments()
 
         # Convert appointments to DataFrame
@@ -42,12 +42,12 @@ class ContentfulService:
         grouped_appointments = {}
         for month, items in grouped.items():
             grouped_appointments[str(month)] = [
-                Appointment(
-                    id=item['id'],
-                    timestamp=item['timestampUtc'].isoformat(),
-                    first_name=item['firstName'],
-                    last_name=item['lastName']
-                ) for item in items
+                {
+                    'id': item['id'],
+                    'timestamp': item['timestampUtc'].isoformat(),
+                    'first_name': item['firstName'],
+                    'last_name': item['lastName']
+                } for item in items
             ]
 
         return grouped_appointments
@@ -100,4 +100,3 @@ class ContentfulService:
         print("Package Stats by Month:\n", package_stats_by_month)
 
         return package_stats_by_month
-
