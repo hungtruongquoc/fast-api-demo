@@ -43,19 +43,13 @@ class ContentfulDAO:
             package_appointment_entry.publish()
             return entry.to_json()
         except Exception as e:
-            logger.error(f"An error occurred: {e}")
+            logger.error(f"An error occurred: {e}", e)
             raise
-
-    def _merge_sys_and_fields(self, entry):
-        # Access the sys and fields attributes
-        sys_dict = entry.sys if isinstance(entry.sys, dict) else entry.sys.__dict__
-        fields_dict = entry.fields if isinstance(entry.fields, dict) else entry.fields.__dict__
-        return {**sys_dict, **fields_dict}
 
     def get_appointments(self):
         entries = self.cda_client.entries({'content_type': 'appointments'})
-        return list(map(lambda entry: self._merge_sys_and_fields(entry), entries))
+        return list(map(lambda entry: (entry.sys, entry.fields), entries))
 
     def get_packages(self):
         entries = self.cda_client.entries({'content_type': 'package'})
-        return list(map(lambda entry:self._merge_sys_and_fields(entry), entries))
+        return list(map(lambda entry: (entry.sys, entry.fields), entries))
