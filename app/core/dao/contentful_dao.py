@@ -52,8 +52,8 @@ class ContentfulDAO:
 
     def get_appointments(self):
         entries = self.cda_client.entries({'content_type': 'appointments'})
-        return [self._merge_sys_and_fields(entry) for entry in entries]
+        return list(map(lambda entry: self._merge_sys_and_fields(entry), entries))
 
     def get_packages(self):
         entries = self.cda_client.entries({'content_type': 'package'})
-        return [self._merge_sys_and_fields(entry) for entry in entries]
+        return list(map(lambda entry: self._merge_sys_and_fields(entry), entries))
