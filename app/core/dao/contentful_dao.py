@@ -46,10 +46,14 @@ class ContentfulDAO:
             logger.error(f"An error occurred: {e}")
             raise
 
+    def _merge_sys_and_fields(self, entry):
+        # Assuming entry has `sys` and `fields` properties
+        return {**entry.sys, **entry.fields}
+
     def get_appointments(self):
         entries = self.cda_client.entries({'content_type': 'appointments'})
-        return [entry.to_json() for entry in entries]
+        return [self._merge_sys_and_fields(entry) for entry in entries]
 
     def get_packages(self):
         entries = self.cda_client.entries({'content_type': 'package'})
-        return [entry.to_json() for entry in entries]
+        return [self._merge_sys_and_fields(entry) for entry in entries]
