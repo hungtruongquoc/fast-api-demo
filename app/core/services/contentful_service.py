@@ -20,7 +20,7 @@ class ContentfulService:
         return self.dao.get_appointments()
 
     def get_packages(self) -> List[ServicePackage]:
-        return self.dao.get_packages()
+        return self.graphql_dao.get_packages()
 
     def get_appointments_with_package(self) -> List[Dict]:
         return self.graphql_dao.get_package_appointments()

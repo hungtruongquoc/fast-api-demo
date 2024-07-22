@@ -62,6 +62,23 @@ class ContentfulGraphQLDAO:
         data = self.query(query)
         return data['data']['appointmentPackageCollection']['items']
 
+    def get_packages(self):
+        query = '''
+        {
+          packageCollection {
+            items {
+              sys {
+                id
+              }
+                name
+                id
+            }
+          }
+        }
+        '''
+        data = self.query(query)
+        return data['data']['appointmentPackageCollection']['items']
+
     def get_appointments(self):
         query = '''
             {
