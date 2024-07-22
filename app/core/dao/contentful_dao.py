@@ -52,4 +52,5 @@ class ContentfulDAO:
 
     def get_packages(self):
         entries = self.cda_client.entries({'content_type': 'package'})
+        logger.debug("Entries' fields: ", list(map(lambda entry: entry.fields, entries)))
         return list(map(lambda entry: (entry.sys, entry.fields), entries))
