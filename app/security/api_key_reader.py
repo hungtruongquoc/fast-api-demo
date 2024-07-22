@@ -6,7 +6,7 @@ class ApiKeyReader:
         pass
 
     def read(self):
-        # Access the "api0key" collection
+        # Access the "api-key" collection
         api_keys_collection = db.collection('api-key')
         docs = api_keys_collection.stream()
 

@@ -15,7 +15,3 @@ async def get_packages(service: ContentfulService = Depends(get_contentful_servi
         return {"packages": entries}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-# Include the stats sub-router under the /stats prefix
-router.include_router(stats_router, prefix="/stats")
