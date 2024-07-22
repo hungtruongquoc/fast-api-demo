@@ -6,6 +6,8 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.errors import RateLimitExceeded
+from fastapi.middleware.cors import CORSMiddleware
+
 import logging
 
 from app.api.routes import router as api_router
@@ -43,5 +45,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # Add SlowAPI middleware to apply rate limiting globally
 app.add_middleware(SlowAPIMiddleware)
 app.add_middleware(ApiKeyAuthenticationMiddleware)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"],
+                   allow_headers=["*"])
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
