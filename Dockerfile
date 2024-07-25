@@ -1,6 +1,14 @@
 # Step 1: Use the official Python 3.9 image as a parent image
 FROM python:3.9-slim
 
+# Step 8: Install the Datadog Agent
+RUN apt-get update && apt-get install -y curl gnupg \
+    && curl -o /tmp/datadog-signing-key.asc https://keys.datadoghq.com/DATADOG_APT_KEY_CURRENT.public \
+    && apt-key add /tmp/datadog-signing-key.asc \
+    && sh -c "echo 'deb https://apt.datadoghq.com/ stable 7' > /etc/apt/sources.list.d/datadog.list" \
+    && apt-get update \
+    && apt-get install -y datadog-agent
+
 # Step 2: Set the working directory in the container
 WORKDIR /app
 
