@@ -1,4 +1,7 @@
 #!/bin/bash
+# Ensure the directory exists
+mkdir -p /etc/datadoghq-agent
+
 # Create a minimal datadog.yaml configuration file dynamically
 cat << EOF > /etc/datadoghq-agent/datadog.yaml
 api_key: ${DD_API_KEY}
