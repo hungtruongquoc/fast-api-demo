@@ -6,6 +6,7 @@ mkdir -p /etc/datadog-agent
 cat << EOF > /etc/datadog-agent/datadog.yaml
 api_key: ${DD_API_KEY}
 site: ${DD_SITE}
+hostname: ${RAILWAY_PRIVATE_DOMAIN}
 EOF
 
 datadog-agent run &
