@@ -3,7 +3,7 @@
 mkdir -p /etc/datadoghq-agent
 
 # Create a minimal datadog.yaml configuration file dynamically
-cat << EOF > /etc/datadoghq-agent/datadog.yaml
+cat << EOF > /etc/datadoghq-agent/datadog
 api_key: ${DD_API_KEY}
 site: ${DD_SITE}
 EOF
